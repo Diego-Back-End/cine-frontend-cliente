@@ -10,7 +10,7 @@ const Navbar = () => {
           to="/" 
           className="text-2xl font-black text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500 hover:opacity-80 transition-opacity tracking-wide"
         >
-            CineApp
+            CineCloud
         </Link>
         
         {/* Centro: Enlaces de navegación (Se ocultan en celulares pequeños) */}

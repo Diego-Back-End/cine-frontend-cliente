@@ -30,7 +30,7 @@ const HeroCarousel = () => {
   }, [currentIndex]);
 
   return (
-    <div className="relative w-full h-[180px] md:h-[320px] lg:h-[400px] overflow-hidden rounded-2xl group shadow-2xl">
+    <div className="relative w-full h-[180px] md:h-[360px] lg:h-[360px] overflow-hidden rounded-2xl group shadow-2xl">
       {/* Imágenes con efecto de transición (Fade in) */}
       {mockBanners.map((banner, index) => (
         <div

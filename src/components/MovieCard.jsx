@@ -1,4 +1,7 @@
-const MovieCard = ({ title, image, genre, duration, rating }) => {
+import { useNavigate } from 'react-router';
+
+const MovieCard = ({ title, image, genre, duration, rating, id }) => {
+  const navigate = useNavigate();
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group cursor-pointer overflow-hidden border border-base-300">
       <figure className="relative aspect-[2/3] overflow-hidden">
@@ -20,7 +23,12 @@ const MovieCard = ({ title, image, genre, duration, rating }) => {
           <span>{duration}</span>
         </div>
         <div className="card-actions justify-end mt-3">
-          <button className="btn btn-primary btn-sm w-full">Ver Horarios</button>
+          <button 
+            onClick={() => navigate(`/pelicula/${id}`)} // <-- Actualizar el botón
+            className="btn btn-primary btn-sm w-full"
+          >
+            Ver Horarios
+          </button>
         </div>
       </div>
     </div>

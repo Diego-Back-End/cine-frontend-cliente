@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 
 // Banners horizontales de prueba
 const mockBanners = [
-  { id: 1, image: "https://cdn.cinemark.cl/content/banners/home/1787754185862-large-large-endgame-encore-PREVENTA.webp", title: "Avengers Endgame:Encore" },
-  { id: 2, image: "https://cdn.cinemark.cl/content/banners/home/1786389820853-large-full-t2-preventa.webp", title: "Terminator" },
+  { id: 1, image: "https://cdn.cinemark.cl/content/banners/home/1788234586805-large-large-endgame-bonus.webp", title: "Avengers Endgame:Encore" },
+  { id: 2, image: "https://cdn.cinemark.cl/content/banners/home/1788235690676-large-large-t2.webp", title: "Terminator" },
   { id: 3, image: "https://cdn.cinemark.cl/content/banners/home/1787773024250-large-large-coyote.webp", title: "Coyote vs Acme" }
 ];
 

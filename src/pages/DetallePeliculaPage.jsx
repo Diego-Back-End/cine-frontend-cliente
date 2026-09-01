@@ -1,15 +1,53 @@
 import { useState } from "react"
 import { useParams, useNavigate } from "react-router"
 
-const mockMovie = {
-    id: 1, 
-    title: "SPIDERMAN BRAND NEW DAY",
-    genre: "CIENCIA FICCION",
-    duration: "166 min",
-    rating: "+14",
-    images: "https://cdn.cinemark.cl/content/posters/HO00015116.jpg",
-    synopsis: "Han pasado cuatro años desde los acontecimientos de No Way Home, y Peter es ahora un adulto que vive completamente solo, habiéndose borrado voluntariamente de las vidas y recuerdos de aquellos a quienes ama. Lucha contra el crimen en un Nueva York que ya no conoce su nombre, se ha dedicado por completo a proteger su ciudad -un Spider-Man de tiempo completo- pero a medida que las exigencias sobre él se intensifican, la presión desata una sorprendente evolución física que amenaza su existencia, aun cuando un nuevo y extraño patrón de crímenes da lugar a una de las amenazas más poderosas que jamás haya enfrentado.",
-};
+const mockDetalles = [
+    {
+        id: 1,
+        title: "SPIDERMAN BRAND NEW DAY",
+        genre: "CIENCIA FICCION",
+        duration: "166 min",
+        rating: "+14",
+        image: "https://cdn.cinemark.cl/content/posters/HO00015116.jpg",
+        synopsis: "Han pasado cuatro años desde los acontecimientos de No Way Home, y Peter es ahora un adulto que vive completamente solo, habiéndose borrado voluntariamente de las vidas y recuerdos de aquellos a quienes ama. Lucha contra el crimen en un Nueva York que ya no conoce su nombre, se ha dedicado por completo a proteger su ciudad -un Spider-Man de tiempo completo- pero a medida que las exigencias sobre él se intensifican, la presión desata una sorprendente evolución física que amenaza su existencia, aun cuando un nuevo y extraño patrón de crímenes da lugar a una de las amenazas más poderosas que jamás haya enfrentado.",
+    },
+    {
+        id: 2,
+        title: "LA ODISEA",
+        genre: "DRAMA - ACCIÓN",
+        duration: "127 min",
+        rating: "+18",
+        image: "https://cdn.cinemark.cl/content/posters/HO00015111.jpg",
+        synopsis: "La siguiente película de Christopher Nolan, La Odisea, es una película de acción épica filmada alrededor del mundo usando nueva tecnología IMAX®. La película lleva la saga fundamental de Homero a las pantallas IMAX® por primera vez y estrena en cines en julio de 2026.",
+    },
+    {
+        id: 3,
+        title: "LA MUERTE DE ROBIN HOOD",
+        genre: "ACCIÓN",
+        duration: "96 min",
+        rating: "+18",
+        image: "https://cdn.cinemark.cl/content/posters/HO00015321.jpg",
+        synopsis: "Robin Hood (Hugh Jackman) intenta lidiar con sus demonios tras una larga vida de crímenes y asesinatos. Cuando en una sangrienta batalla resulta herido de gravedad, es enviado a un misterioso castillo para que curen sus heridas. Allí conocerá a una mujer que le ofrecerá una última oportunidad de redención.",
+    },
+    {
+        id: 4,
+        title: "MI VECINO TOTORO",
+        genre: "ANIMACIÓN - ANIME",
+        duration: "119 min",
+        rating: "+10",
+        image: "https://cdn.cinemark.cl/content/posters/HO00015252.jpg",
+        synopsis: "Cuando las hermanas Satsuki y Mei se mudan al campo junto a su padre para estar más cerca de su madre enferma, descubren un mundo mágico oculto entre los bosques. Allí conocen a Totoro, un misterioso y amable espíritu de la naturaleza que las acompañará en una inolvidable aventura llena de imaginación, amistad y asombro..",
+    },
+    {
+        id: 5,
+        title: "LA NOCHE DEL DEMONIO: ESTÁN ENTRE NOSOTROS",
+        genre: "TERROR - SUSPENSO",
+        duration: "150 min",
+        rating: "+12",
+        image: "https://cdn.cinemark.cl/content/posters/HO00015308.jpg",
+        synopsis: "Gemma, una joven madre que cría a su hija en la casa en la que creció, descubre que puede viajar a The Further, donde posee la capacidad de traer lo que allí vive de vuelta al mundo real.",
+    },
+];
 
 const mockFechas = ["HOY", "VIE 28/AGO", "SAB 29/AGO", "DOM 30/AGO", "LUN 31/AGO"];
 
@@ -28,6 +66,9 @@ function DetallePeliculaPage() {
     const [filtroFormato, setFiltroFormato] = useState("Todos");
     const [filtroIdioma, setFiltroIdioma] = useState("Todos");
 
+    // Buscar la película en el mockDetalles usando el ID de la URL
+    const mockMovie = mockDetalles.find(movie => String(movie.id) === String(id));
+
 
     //filtramos las funciones basados en los selectores
     const funcionesFiltradas = mockFunciones.filter(funcion => {
@@ -35,6 +76,26 @@ function DetallePeliculaPage() {
                (filtroIdioma === "Todos" || funcion.idioma === filtroIdioma);
     });
 
+
+    // Si no se encuentra la película, mostrar mensaje de error
+    if (!mockMovie) {
+        return (
+            <main className="min-h-screen bg-[#111111] text-white py-10 px-4 font-sans">
+                <div className="container mx-auto max-w-6xl">
+                    <button 
+                        onClick={() => navigate('/')}
+                        className="btn btn-ghost btn-sm mb-6 text-gray-400 hover:text-white"
+                    >
+                        ← Volver a la cartelera
+                    </button>
+                    <div className="text-center py-20">
+                        <h1 className="text-4xl font-bold text-red-600 mb-4">Película no encontrada</h1>
+                        <p className="text-gray-400">La película con ID {id} no existe en nuestra base de datos.</p>
+                    </div>
+                </div>
+            </main>
+        );
+    }
 
     return (
     <main className="min-h-screen bg-[#111111] text-white py-10 px-4 font-sans">

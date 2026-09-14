@@ -7,5 +7,5 @@ export default defineConfig({
     react(),
     tailwindcss(),
   ],
-  base: '/cine-frontend-cliente/',
+  base: '/cine-frontend-cliente/'
 })

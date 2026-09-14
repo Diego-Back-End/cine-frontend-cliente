@@ -2,9 +2,9 @@ import { useState, useEffect } from 'react';
 
 // Banners horizontales de prueba
 const mockBanners = [
-  { id: 1, image: "https://cdn.cinemark.cl/content/banners/home/1787754185862-large-large-endgame-encore-PREVENTA.webp", title: "Avengers Endgame:Encore" },
-  { id: 2, image: "https://cdn.cinemark.cl/content/banners/home/1786389820853-large-full-t2-preventa.webp", title: "Terminator" },
-  { id: 3, image: "https://cdn.cinemark.cl/content/banners/home/1787773024250-large-large-coyote.webp", title: "Coyote vs Acme" }
+  { id: 1, image: "https://cdn.cinemark.cl/content/banners/home/1788234751952-large-large-endgame-bonus.webp", title: "Avengers Endgame:Encore" },
+  { id: 2, image: "https://cdn.cinemark.cl/content/banners/home/1789058059125-large-large-duna3-preventa.webp", title: "Dune parte 3" },
+  { id: 3, image: "https://cdn.cinemark.cl/content/banners/home/1789053515232-large-large-resident-preventa.webp", title: "Resident Evil Noche cero" }
 ];
 
 const HeroCarousel = () => {

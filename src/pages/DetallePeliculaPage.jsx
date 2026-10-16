@@ -13,11 +13,11 @@ const mockCines = [
     nombre: "CineCloud Center",
     direccion: "Av. Providencia 1234, Santiago",
     funciones: [
-      { id: 101, hora: "14:50", formato: "2D + DBOX", idioma: "Doblada", disponibilidad: "Alta" },
-      { id: 102, hora: "17:30", formato: "2D + DBOX", idioma: "Doblada", disponibilidad: "Alta" },
-      { id: 103, hora: "20:15", formato: "IMAX", idioma: "Subtitulada", disponibilidad: "Media" },
-      { id: 104, hora: "22:30", formato: "2D", idioma: "Subtitulada", disponibilidad: "Baja" },
-      { id: 105, hora: "23:50", formato: "IMAX", idioma: "Doblada", disponibilidad: "Lleno" },
+      { id: 101, hora: "14:50", formato: "2D + DBOX", idioma: "Doblada", disponibilidad: "Alta", precio: 6500 },
+      { id: 102, hora: "17:30", formato: "2D + DBOX", idioma: "Doblada", disponibilidad: "Alta", precio: 6500 },
+      { id: 103, hora: "20:15", formato: "IMAX", idioma: "Subtitulada", disponibilidad: "Media", precio: 7000 },
+      { id: 104, hora: "22:30", formato: "2D", idioma: "Subtitulada", disponibilidad: "Baja", precio: 5000 },
+      { id: 105, hora: "23:50", formato: "IMAX", idioma: "Doblada", disponibilidad: "Lleno", precio: 7000 },
     ],
   },
   {
@@ -25,10 +25,10 @@ const mockCines = [
     nombre: "CineCloud Norte",
     direccion: "Av. La Florida 2560, Santiago",
     funciones: [
-      { id: 201, hora: "15:20", formato: "2D", idioma: "Doblada", disponibilidad: "Alta" },
-      { id: 202, hora: "18:00", formato: "3D", idioma: "Doblada", disponibilidad: "Media" },
-      { id: 203, hora: "21:10", formato: "IMAX", idioma: "Subtitulada", disponibilidad: "Baja" },
-      { id: 204, hora: "19:45", formato: "2D + DBOX", idioma: "Subtitulada", disponibilidad: "Lleno" },
+      { id: 201, hora: "15:20", formato: "2D", idioma: "Doblada", disponibilidad: "Alta", precio: 5000 },
+      { id: 202, hora: "18:00", formato: "3D", idioma: "Doblada", disponibilidad: "Media", precio: 5500 },
+      { id: 203, hora: "21:10", formato: "IMAX", idioma: "Subtitulada", disponibilidad: "Baja", precio: 7000 },
+      { id: 204, hora: "19:45", formato: "2D + DBOX", idioma: "Subtitulada", disponibilidad: "Lleno", precio: 6500 },
     ],
   },
 ];
@@ -77,6 +77,18 @@ function DetallePeliculaPage() {
   const duracion = pelicula?.duracion != null ? `${pelicula.duracion} min` : null;
   const clasificacionTexto = pelicula?.clasificacion?.trim() || "S/C";
   const generos = Array.isArray(pelicula?.generos) ? pelicula.generos : [];
+
+  const funcionActual = funcionSeleccionada
+    ? mockCines
+        .flatMap(cine =>
+          cine.funciones.map(funcion => ({
+            ...funcion,
+            cine: cine.nombre,
+            direccion: cine.direccion,
+          }))
+        )
+        .find(funcion => funcion.id === funcionSeleccionada) ?? null
+    : null;
 
   return (
     <main className="min-h-screen bg-[#111111] text-white py-10 px-4 font-sans">
@@ -250,6 +262,21 @@ function DetallePeliculaPage() {
                   );
                 })}
               </div>
+
+              {funcionActual && (
+                <div className="sticky bottom-4 flex justify-center pt-2">
+                  <button
+                    onClick={() =>
+                      navigate(`/reserva/${funcionActual.id}`, {
+                        state: { funcion: funcionActual },
+                      })
+                    }
+                    className="btn btn-primary shadow-lg shadow-blue-500/30"
+                  >
+                    Continuar con la reserva · {funcionActual.hora}hrs {funcionActual.formato}
+                  </button>
+                </div>
+              )}
 
             </section>
           </div>

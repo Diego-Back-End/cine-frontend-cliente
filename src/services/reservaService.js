@@ -2,8 +2,12 @@ import { SESSION_EMAIL_KEY } from '../context/AuthContext';
 
 const RESERVAS_URL = import.meta.env.VITE_RESERVAS_URL;
 
+// Email de desarrollo: ms-reservas identifica al cliente con este header
+// cuando corre con el perfil "dev". Se usa si no hay sesión iniciada.
+export const DEV_EMAIL = 'diegoescobedoambrosetti@gmail.com';
+
 function getSessionEmail() {
-  return sessionStorage.getItem(SESSION_EMAIL_KEY) || '';
+  return sessionStorage.getItem(SESSION_EMAIL_KEY) || DEV_EMAIL;
 }
 
 async function parseBody(response) {

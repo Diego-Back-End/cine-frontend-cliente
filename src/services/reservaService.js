@@ -1,9 +1,16 @@
-import { SESSION_EMAIL_KEY } from '../context/AuthContext';
+import { getStoredUser, getUserManager } from '../authConfig';
 
 const RESERVAS_URL = import.meta.env.VITE_RESERVAS_URL;
 
-function getSessionEmail() {
-  return sessionStorage.getItem(SESSION_EMAIL_KEY) || '';
+function getAuthHeaders() {
+  const user = getStoredUser();
+  const headers = {};
+
+  if (user?.id_token) {
+    headers.Authorization = `Bearer ${user.id_token}`;
+  }
+
+  return headers;
 }
 
 async function parseBody(response) {
@@ -21,11 +28,19 @@ async function request(path, options = {}) {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      // Header temporal de desarrollo: identifica al cliente en ms-reservas.
-      'X-Dev-Email': getSessionEmail(),
+      ...getAuthHeaders(),
       ...options.headers,
     },
   });
+
+  if (response.status === 401) {
+    await getUserManager().signinRedirect();
+    const error = new Error(
+      'Tu sesión expiró. Redirigiendo al inicio de sesión.'
+    );
+    error.status = 401;
+    throw error;
+  }
 
   const data = await parseBody(response);
 

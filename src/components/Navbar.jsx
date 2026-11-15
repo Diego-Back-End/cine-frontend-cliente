@@ -1,14 +1,8 @@
-import { Link, useNavigate } from 'react-router';
+import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 
 const Navbar = () => {
-  const { email, isAuthenticated, logout } = useAuth();
-  const navigate = useNavigate();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/');
-  };
+  const { email, isAuthenticated, login, logout } = useAuth();
 
   return (
     <nav className="bg-gray-950 border-b border-gray-800 px-6 py-4">
@@ -37,19 +31,20 @@ const Navbar = () => {
             </span>
             <button
               type="button"
-              onClick={handleLogout}
+              onClick={() => logout()}
               className="px-5 py-2 rounded-full border border-gray-700 text-gray-300 font-semibold text-sm hover:border-red-500 hover:text-red-400 transition-all duration-300"
             >
               Cerrar sesión
             </button>
           </div>
         ) : (
-          <Link 
-            to="/login" 
+          <button
+            type="button"
+            onClick={() => login()}
             className="px-6 py-2 rounded-full bg-blue-600 text-white font-semibold text-sm hover:bg-blue-500 transition-all duration-300 shadow-[0_0_15px_rgba(37,99,235,0.3)] hover:shadow-[0_0_25px_rgba(37,99,235,0.6)]"
           >
             Iniciar Sesión
-          </Link>
+          </button>
         )}
         
       </div>

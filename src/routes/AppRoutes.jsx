@@ -1,6 +1,5 @@
 import { useLocation } from 'react-router';
 import { Routes, Route } from 'react-router';
-import LoginPageClient from '../pages/LoginPageClient';
 import CarteleraPage from '../pages/CarteleraPage';
 import DetallePeliculaPage from '../pages/DetallePeliculaPage';
 import SeleccionAsientosPage from '../pages/SeleccionAsientosPage';
@@ -14,7 +13,6 @@ const AppRoutes = () => {
   return (
     <Routes location={location}>
       <Route path="/" element={<CarteleraPage />} />
-      <Route path="/login" element={<LoginPageClient />} />
       <Route
         path="/pelicula/:id"
         element={<DetallePeliculaPage key={peliculaId} />}

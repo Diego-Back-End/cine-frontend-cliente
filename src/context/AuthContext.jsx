@@ -1,43 +1,40 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, useCallback, useContext, useState } from 'react';
+import { useCallback, useMemo } from 'react';
+import { useAuth as useOidcAuth } from 'react-oidc-context';
 
-// Clave usada para persistir la sesión del cliente en sessionStorage.
-export const SESSION_EMAIL_KEY = 'cine-cliente-session-email';
-
-export const AuthContext = createContext(null);
-
-// TODO: Este provider implementa un login SIMULADO y TEMPORAL para clientes.
-// TODO: Reemplazar por autenticación real con Amazon Cognito (hosted UI / tokens).
-export function AuthProvider({ children }) {
-  const [email, setEmail] = useState(
-    () => sessionStorage.getItem(SESSION_EMAIL_KEY) || ''
-  );
-
-  const login = useCallback((correo) => {
-    const normalizado = correo.trim().toLowerCase();
-    sessionStorage.setItem(SESSION_EMAIL_KEY, normalizado);
-    setEmail(normalizado);
-  }, []);
-
-  const logout = useCallback(() => {
-    sessionStorage.removeItem(SESSION_EMAIL_KEY);
-    setEmail('');
-  }, []);
-
-  const value = {
-    email,
-    isAuthenticated: Boolean(email),
-    login,
-    logout,
-  };
-
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
+// Adapta la interfaz de autenticación que ya consumía la app (email/correo,
+// login, logout e isAuthenticated) sobre react-oidc-context / Cognito.
 export function useAuth() {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error('useAuth debe usarse dentro de un AuthProvider');
-  }
-  return context;
+  const auth = useOidcAuth();
+  const { user, isAuthenticated, isLoading, signinRedirect, removeUser } = auth;
+
+  const correo = user?.profile?.email ?? '';
+
+  const login = useCallback(() => {
+    return signinRedirect();
+  }, [signinRedirect]);
+
+  const logout = useCallback(async () => {
+    await removeUser();
+
+    const domain = import.meta.env.VITE_COGNITO_DOMAIN;
+    const clientId = import.meta.env.VITE_COGNITO_CLIENT_ID;
+    const logoutUri = encodeURIComponent(
+      window.location.origin + import.meta.env.BASE_URL
+    );
+
+    window.location.href = `${domain}/logout?client_id=${clientId}&logout_uri=${logoutUri}`;
+  }, [removeUser]);
+
+  return useMemo(
+    () => ({
+      correo,
+      email: correo,
+      isAuthenticated,
+      isLoading,
+      login,
+      logout,
+    }),
+    [correo, isAuthenticated, isLoading, login, logout]
+  );
 }

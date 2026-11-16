@@ -20,7 +20,7 @@ function CarteleraPage() {
       <div className="container mx-auto max-w-7xl space-y-10">
 
         <section>
-          <HeroCarousel />
+          <HeroCarousel peliculas={peliculas} />
         </section>
 
         <section>

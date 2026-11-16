@@ -19,11 +19,12 @@ async function parseBody(response) {
 async function request(path, options = {}) {
   const authUser = await getAuthUser();
   const idToken = authUser?.id_token;
+  const method = (options.method ?? 'GET').toUpperCase();
 
   const response = await fetch(`${RESERVAS_URL}${path}`, {
     ...options,
     headers: {
-      'Content-Type': 'application/json',
+      ...(method !== 'GET' ? { 'Content-Type': 'application/json' } : {}),
       ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
       ...options.headers,
     },

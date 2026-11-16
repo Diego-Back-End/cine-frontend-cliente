@@ -15,7 +15,7 @@ const MovieCard = ({ id, titulo, poster, duracion, clasificacion }) => {
         <img
           src={imagen}
           alt={`Póster de ${titulo}`}
-          className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-500"
+          className="aspect-[2/3] object-cover object-center w-full h-full group-hover:scale-110 transition-transform duration-500"
           onError={(e) => { e.target.src = DEFAULT_POSTER; }}
         />
 

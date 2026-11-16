@@ -1,13 +1,9 @@
-import { SESSION_EMAIL_KEY } from '../context/AuthContext';
+import { userManager } from '../authConfig';
 
 const RESERVAS_URL = import.meta.env.VITE_RESERVAS_URL;
 
-// Email de desarrollo: ms-reservas identifica al cliente con este header
-// cuando corre con el perfil "dev". Se usa si no hay sesión iniciada.
-export const DEV_EMAIL = 'diegoescobedoambrosetti@gmail.com';
-
-function getSessionEmail() {
-  return sessionStorage.getItem(SESSION_EMAIL_KEY) || DEV_EMAIL;
+async function getAuthUser() {
+  return userManager.getUser();
 }
 
 async function parseBody(response) {
@@ -21,12 +17,14 @@ async function parseBody(response) {
 }
 
 async function request(path, options = {}) {
+  const authUser = await getAuthUser();
+  const idToken = authUser?.id_token;
+
   const response = await fetch(`${RESERVAS_URL}${path}`, {
     ...options,
     headers: {
       'Content-Type': 'application/json',
-      // Header temporal de desarrollo: identifica al cliente en ms-reservas.
-      'X-Dev-Email': getSessionEmail(),
+      ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
       ...options.headers,
     },
   });

@@ -3,7 +3,6 @@ import { useLocation, useNavigate, useParams } from 'react-router';
 import SeatMap from '../components/SeatMap';
 import { useAuth } from '../context/AuthContext';
 import {
-  confirmarReserva,
   crearReserva,
   obtenerAsientosOcupados,
 } from '../services/reservaService';
@@ -73,9 +72,7 @@ function SeleccionAsientosPage() {
       });
       const reservaId = reserva?.id ?? reserva?.reservaId ?? reserva;
 
-      await confirmarReserva(reservaId);
-
-      navigate('/compra', {
+      navigate(`/pago/${reservaId}`, {
         replace: true,
         state: { email, asientos: seleccionados, total, funcion, reservaId },
       });

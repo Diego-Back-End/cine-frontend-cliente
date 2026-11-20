@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router';
 import CarteleraPage from '../pages/CarteleraPage';
 import DetallePeliculaPage from '../pages/DetallePeliculaPage';
 import SeleccionAsientosPage from '../pages/SeleccionAsientosPage';
+import PagoSimuladoPage from '../pages/PagoSimuladoPage';
 import CompraConfirmacionPage from '../pages/CompraConfirmacionPage';
 import ProtectedRoute from '../components/ProtectedRoute';
 
@@ -22,6 +23,14 @@ const AppRoutes = () => {
         element={
           <ProtectedRoute>
             <SeleccionAsientosPage />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/pago/:reservaId"
+        element={
+          <ProtectedRoute>
+            <PagoSimuladoPage />
           </ProtectedRoute>
         }
       />
